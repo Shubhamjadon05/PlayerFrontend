@@ -55,6 +55,7 @@ const SportCenter = () => {
       <div className="pt-5">
         <div className="container-fluids" style={{ height: "100vh" }}>
           <div
+            style={{ hight: "300vh" }}
             className="row justify-content-center align-items-center h-100"
             style={backgroundImage}
           >
@@ -102,17 +103,16 @@ const SportCenter = () => {
                     <Form.Text className="text-muted"></Form.Text>
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicName">
-                    <Form.Label style={{ display: "flex" }}>
-                      User Name
-                    </Form.Label>
+                    <Form.Label style={{ display: "flex" }}>Address</Form.Label>
                     <Field
                       className="form-control"
                       type="text"
-                      placeholder="User name"
-                      id="username"
-                      name="username"
+                      placeholder="Address "
+                      id="Address"
+                      name="Address"
                     />
                   </Form.Group>
+
                   <Form.Group className="mb-3" controlId="formBasicName">
                     <Form.Label style={{ display: "flex" }}>
                       Password
@@ -167,7 +167,11 @@ const SportCenter = () => {
                       <option value="3">Three</option>
                     </Field>
                   </Form.Group>
-                  <Button variant="primary" type="submit">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    style={{ width: "500px", hight: "" }}
+                  >
                     Submit
                   </Button>
                 </MyForm>

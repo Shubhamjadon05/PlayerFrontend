@@ -5,7 +5,7 @@ import MultiSelect from "react-multiple-select-dropdown-lite";
 import "react-multiple-select-dropdown-lite/dist/index.css";
 import { useState, useEffect } from "react";
 import Searchbox from "../pages/Search";
-import { getFilteredPlayers } from "../Servises/playerService";
+import { getFilteredPlayers } from "../Services/playerService";
 
 const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
   const SPORTS = [
@@ -91,7 +91,9 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
             aria-label="Default select example"
             name="sport"
           >
-            <option selected>Open this select menu</option>
+            <option selected style={{ paddingTop: "rem" }}>
+              Open this select menu
+            </option>
             {SPORTS.map((row, index) => {
               return (
                 <option key={index} value={row.label}>
@@ -143,10 +145,23 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
           />
           {/* <ErrorMessage /> */}
         </div>
-        <Searchbox setMarker={setMarker} handleInput={handleInput} />
+        <div style={{ paddingRight: "1rem", paddingTop: "1rem" }}>
+          {" "}
+          Search Location
+          <Searchbox setMarker={setMarker} handleInput={handleInput} />
+        </div>
       </div>
-      <div>
-        <button onClick={getFilteredPlayers}>submit</button>
+      <div
+        style={{
+          paddingTop: "1rem",
+          width: "",
+          backgroundColor: "",
+        }}
+      >
+        <Button variant="primary" type="submit" onClick={getFilteredPlayers}>
+          {" "}
+          Submit
+        </Button>
       </div>
     </>
   );

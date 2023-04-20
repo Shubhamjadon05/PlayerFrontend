@@ -8,6 +8,33 @@ import { useSignup } from "../hooks/useSignup";
 import React from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import MainNav from "../components/mainNav";
+import { getFilteredPlayers } from "../Services/playerService";
+
+// useEffect(() => {
+//   getFilteredPlayers();
+//   let a;
+//   let current = [];
+//   current.push();
+// }, []);
+
+// const getFilteredPlayers = async () => {
+//   if (inputs.selectedLocation) setMarker(inputs.selectedLocation);
+//   let bodyData = { ...inputs };
+//   let options = {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify(bodyData),
+//   };
+//   const response = await fetch(
+//     "http://localhost:4112/players/getFilteredPlayers",
+//     options
+//   ).then((res) => res.json().then((jsonRes) => jsonRes));
+//   console.log("RES", response);
+//   if (response && response.filteredPlayer) setPlayers(response.filteredPlayer);
+//   else setPlayers([]);
+// };
 
 const phoneRegExp =
   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
@@ -48,14 +75,16 @@ const PlayerForm = () => {
   }, []);
 
   const handleSubmit = async (values) => {
-    await signup(values);
+    // await signup(values);
+    console.log(values);
   };
+
   return (
     <>
       <div className="pt-5">
         <div className="container-fluids" style={{ height: "100%" }}>
           <div
-            className="row justify-content-center align-items-center h-100"
+            className="row justify-content-center align-items-center h-400"
             style={backgroundImage}
           >
             <div className="col-12"></div>
@@ -103,22 +132,34 @@ const PlayerForm = () => {
                       name="email"
                       placeholder="Enter email"
                     />
-                    <Form.Text className="text-muted">
-                      We'll never share your email with anyone else.
-                    </Form.Text>
+                    <Form.Text className="text-muted"></Form.Text>
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicName">
-                    <Form.Label style={{ display: "flex" }}>
-                      User Name
-                    </Form.Label>
+                    <Form.Label style={{ display: "flex" }}>Address</Form.Label>
                     <Field
                       className="form-control"
                       type="text"
-                      placeholder="User name"
-                      id="username"
-                      name="username"
+                      placeholder="Address"
+                      id="Address"
+                      name="Address"
                     />
                   </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicRole">
+                    <Form.Label style={{ display: "flex" }}>Role</Form.Label>
+                    <Field
+                      as="select"
+                      className="form-control"
+                      aria-label="Default select example"
+                      id="role"
+                      name="role"
+                    >
+                      <option>Open this select menu</option>
+                      <option value="1">Cricket</option>
+                      <option value="2">Footwall</option>
+                      <option value="3">tannis</option>
+                    </Field>
+                  </Form.Group>
+
                   <Form.Group className="mb-3" controlId="formBasicName">
                     <Form.Label style={{ display: "flex" }}>
                       Password
@@ -159,7 +200,7 @@ const PlayerForm = () => {
                     </Field>
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formBasicRole">
-                    <Form.Label>Status</Form.Label>
+                    <Form.Label style={{ display: "flex" }}>Status</Form.Label>
                     <Field
                       as="select"
                       className="form-control"
@@ -173,7 +214,12 @@ const PlayerForm = () => {
                       <option value="3">Three</option>
                     </Field>
                   </Form.Group>
-                  <Button variant="primary" type="submit">
+                  <Button
+                    style={{ width: "500px", hight: "" }}
+                    variant="primary"
+                    type="submit"
+                    onClick={handleSubmit}
+                  >
                     Submit
                   </Button>
                 </MyForm>

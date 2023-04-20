@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import FilterForm from "../components/filterForm";
 
 import MyMapComponent from "../components/maps";
+
 const Home = () => {
   const [inputs, setInputs] = useState({});
   const handleInput = (e) => {
@@ -25,19 +26,27 @@ const Home = () => {
           flexWrap: "wrap",
           justifyContent: "",
           padding: "",
+          backgroundColor: "-moz-initial",
         }}
       >
-        <div style={{ paddingLeft: "5rem", paddingTop: "8rem" }}>
+        <div
+          style={{
+            paddingLeft: "15rem",
+            paddingTop: "8rem",
+            backgroundColor: "-moz-initial",
+          }}
+        >
           <FilterForm
             inputs={inputs}
             handleInput={handleInput}
             setMarker={setMarker}
             setPlayers={setPlayers}
+            style={{ backgroundColor: "-moz-initial" }}
           />
         </div>
         <div style={{ paddingTop: "5rem" }}>
           <div>{/* <Search setMarker={setMarker} />{" "} */}</div>
-          <div style={{ paddingTop: "1rem", paddingLeft: "4rem" }}>
+          <div style={{ paddingTop: "1rem", paddingLeft: "7rem" }}>
             <MyMapComponent inputs={inputs} marker={marker} players={players} />
           </div>
         </div>
