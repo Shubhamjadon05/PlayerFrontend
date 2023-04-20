@@ -8,13 +8,15 @@ const Home = () => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
 
+  const [players, setPlayers] = React.useState([]);
+
+  console.log("MAINJ P<LKAyers", players);
+
   const [marker, setMarker] = useState({
     lat: 23.301189422607422,
     lng: 77.37000274658203,
   });
-  useEffect(() => {
-    console.log("shubham marker", marker);
-  }, [marker]);
+  useEffect(() => {}, [marker]);
   return (
     <>
       <div
@@ -30,12 +32,13 @@ const Home = () => {
             inputs={inputs}
             handleInput={handleInput}
             setMarker={setMarker}
+            setPlayers={setPlayers}
           />
         </div>
         <div style={{ paddingTop: "5rem" }}>
           <div>{/* <Search setMarker={setMarker} />{" "} */}</div>
           <div style={{ paddingTop: "1rem", paddingLeft: "4rem" }}>
-            <MyMapComponent inputs={inputs} marker={marker} />
+            <MyMapComponent inputs={inputs} marker={marker} players={players} />
           </div>
         </div>
       </div>
