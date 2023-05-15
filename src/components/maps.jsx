@@ -6,8 +6,8 @@ import Row from "react-bootstrap/Row";
 import { Marker } from "@react-google-maps/api";
 
 const containerStyle = {
-  width: "50vw",
-  height: "50vh",
+  width: "30vw",
+  height: "40vh",
 };
 
 function MyMapComponent({ marker, players }) {

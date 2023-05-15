@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import FilterForm from "../components/filterForm";
-
 import MyMapComponent from "../components/maps";
 
 const Home = () => {
@@ -17,23 +16,24 @@ const Home = () => {
     lat: 23.301189422607422,
     lng: 77.37000274658203,
   });
+
   useEffect(() => {}, [marker]);
+
   return (
-    <>
+    <div style={{ backgroundColor: "488A99" }}>
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "",
           padding: "",
-          backgroundColor: "-moz-initial",
         }}
       >
         <div
           style={{
             paddingLeft: "15rem",
             paddingTop: "8rem",
-            backgroundColor: "-moz-initial",
+            backgroundColor: "#f1f1f1",
           }}
         >
           <FilterForm
@@ -41,17 +41,17 @@ const Home = () => {
             handleInput={handleInput}
             setMarker={setMarker}
             setPlayers={setPlayers}
-            style={{ backgroundColor: "-moz-initial" }}
+            style={{ backgroundColor: "#f1f1f1" }}
           />
         </div>
-        <div style={{ paddingTop: "5rem" }}>
-          <div>{/* <Search setMarker={setMarker} />{" "} */}</div>
+        {/* here is map componant and autcomplte componat  */}
+        <div style={{ paddingTop: "9rem" }}>
           <div style={{ paddingTop: "1rem", paddingLeft: "7rem" }}>
             <MyMapComponent inputs={inputs} marker={marker} players={players} />
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

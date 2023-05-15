@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 
 const ClubRegistration = () => {
-  const [formData, setFormData] = useState({
+  const [clubData, setFormData] = useState({
     name: "",
     address: "",
     mobile: "",
@@ -22,14 +22,14 @@ const ClubRegistration = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("Form submitted", formData);
+    console.log("Form submitted", clubData);
 
     const res = await fetch(
       `http://localhost:4112/players/getClubregisterPlayer`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ formData }),
+        body: JSON.stringify({ clubData }),
       }
     );
     console.log(res);
@@ -37,27 +37,28 @@ const ClubRegistration = () => {
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData({ ...clubData, [name]: value });
   };
 
   const handleSportsChange = (event) => {
-    setFormData({ ...formData, sports: event.target.value });
+    setFormData({ ...clubData, sports: event.target.value });
   };
 
   const handleEmailChange = (event) => {
     const value = event.target.value;
-    setFormData({ ...formData, email: value });
+    setFormData({ ...clubData, email: value });
     setIsValidEmail(/^\S+@\S+\.\S+$/.test(value));
   };
 
   const handleMobileChange = (event) => {
     const value = event.target.value;
-    setFormData({ ...formData, mobile: value });
+    setFormData({ ...clubData, mobile: value });
     setIsValidMobile(/^\d{10}$/.test(value));
   };
 
   return (
     <>
+      <div style={{ backgroundColor: "#f1f1f1" }}></div>
       <div className="pt-5" style={{ width: "vh" }}>
         <div className="container-fluids" style={{ height: "vh", width: "" }}>
           <div
@@ -77,7 +78,7 @@ const ClubRegistration = () => {
                 fullWidth
                 label="Name"
                 name="name"
-                value={formData.name}
+                value={clubData.name}
                 onChange={handleInputChange}
                 required
               />
@@ -86,7 +87,7 @@ const ClubRegistration = () => {
                 fullWidth
                 label="Address"
                 name="address"
-                value={formData.address}
+                value={clubData.address}
                 onChange={handleInputChange}
                 required
                 multiline
@@ -96,7 +97,7 @@ const ClubRegistration = () => {
                 fullWidth
                 label="Mobile Number"
                 name="mobile"
-                value={formData.mobile}
+                value={clubData.mobile}
                 onChange={handleMobileChange}
                 pattern="[0-9]{10}"
                 required
@@ -111,7 +112,7 @@ const ClubRegistration = () => {
                 <InputLabel>Role</InputLabel>
                 <Select
                   name="role"
-                  value={formData.role}
+                  value={clubData.role}
                   onChange={handleInputChange}
                   required
                 >
@@ -125,7 +126,7 @@ const ClubRegistration = () => {
                 <InputLabel>Sports</InputLabel>
                 <Select
                   name="sports"
-                  value={formData.sports}
+                  value={clubData.sports}
                   onChange={handleSportsChange}
                   required
                 >
@@ -139,7 +140,7 @@ const ClubRegistration = () => {
                 fullWidth
                 label="Email"
                 name="email"
-                value={formData.email}
+                value={clubData.email}
                 onChange={handleEmailChange}
                 required
               />
@@ -156,6 +157,7 @@ const ClubRegistration = () => {
           </div>
         </div>
       </div>
+      <div />
     </>
   );
 };

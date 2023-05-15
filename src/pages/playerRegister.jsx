@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Searchbox from "../pages/Search";
 import {
   TextField,
   Select,
@@ -7,11 +8,11 @@ import {
   InputLabel,
 } from "@material-ui/core";
 
-const SportsForm = () => {
+const SportsForm = ({ setMarker, handleInput }) => {
   const [formData, setFormData] = useState({
     name: "",
     address: "",
-    mobile: "",
+    phone: "",
     role: "",
     sports: [],
     email: "",
@@ -55,7 +56,10 @@ const SportsForm = () => {
 
   return (
     <>
-      <div className="pt-5">
+      <div
+        className="pt-5"
+        style={{ backgroundColor: "#f5f5f5", border: "1px solid #000" }}
+      >
         <div className="container-fluids" style={{ height: "vh", width: "" }}>
           <div
             style={{ hight: "vh" }}
@@ -79,21 +83,23 @@ const SportsForm = () => {
                 required
               />
               <br />
-              <TextField
-                fullWidth
-                label="Address"
-                name="address"
-                value={formData.address}
-                onChange={handleInputChange}
-                required
-                multiline
-              />
-              <br />
+              <div
+                style={{
+                  paddingRight: "1rem",
+                  paddingTop: "1rem",
+                  width: "100px  ",
+                }}
+              >
+                {" "}
+                Search Location
+                <Searchbox setMarker={setMarker} handleInput={handleInput} />
+              </div>
+
               <TextField
                 fullWidth
                 label="Mobile Number"
                 name="mobile"
-                value={formData.mobile}
+                value={formData.phone}
                 onChange={handleMobileChange}
                 pattern="[0-9]{10}"
                 required
@@ -119,6 +125,21 @@ const SportsForm = () => {
               </FormControl>
               <br />
               <FormControl fullWidth>
+                <InputLabel>Gender</InputLabel>
+                <Select
+                  name="Gender"
+                  value={formData.sports}
+                  onChange={handleSportsChange}
+                  required
+                >
+                  <MenuItem value="male">male</MenuItem>
+                  <MenuItem value="female">female</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </Select>
+              </FormControl>
+              <br />
+              <br />
+              <FormControl fullWidth>
                 <InputLabel>Sports</InputLabel>
                 <Select
                   name="sports"
@@ -132,6 +153,7 @@ const SportsForm = () => {
                 </Select>
               </FormControl>
               <br />
+
               <TextField
                 fullWidth
                 label="Email"
@@ -146,7 +168,11 @@ const SportsForm = () => {
                 </span>
               )}
               <br />
-              <button type="submit" onClick={handleSubmit}>
+              <button
+                style={{ backgroundColor: "black", color: "white" }}
+                type="submit"
+                onClick={handleSubmit}
+              >
                 Submit
               </button>
             </div>

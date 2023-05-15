@@ -82,17 +82,17 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
 
   return (
     <>
-      <div style={{ display: "", justifyContent: "" }}>
+      <div style={{}}>
         <div className="" style={{ width: "87%" }}>
-          <label>Sport</label>
+          <label style={{ display: "flex" }}>Sport</label>
           <select
             onChange={handleInput}
             className="form-select"
             aria-label="Default select example"
             name="sport"
           >
-            <option selected style={{ paddingTop: "rem" }}>
-              Open this select menu
+            <option selected style={{ paddingTop: "1rem" }}>
+              Open this select Sport
             </option>
             {SPORTS.map((row, index) => {
               return (
@@ -106,14 +106,14 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
           {/* {error ? <ErrorMessage /> : null} */}
         </div>
         <div className="" style={{ width: "87%" }}>
-          <label>Day</label>
+          <label style={{ display: "flex" }}>Day</label>
           <select
             name="day"
             className="form-select"
             aria-label="Default select example"
             onChange={handleInput}
           >
-            <option selected>Open this select menu</option>
+            <option selected>Open this select Day</option>
             {DAYS.map((row, index) => {
               return (
                 <option key={index} value={row.label}>
@@ -125,8 +125,15 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
 
           {/* <ErrorMessage /> */}
         </div>
-        <div className="  " style={{ width: "87%" }}>
-          <label>From</label>
+        <div
+          className="  "
+          style={{
+            width: "87%",
+            display: "",
+            justifyContent: "",
+          }}
+        >
+          <label style={{ display: "flex" }}>From</label>
           <input
             name="from"
             onChange={handleInput}
@@ -136,7 +143,7 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
           {/* <ErrorMessage /> */}
         </div>
         <div className="" style={{ width: "87%" }}>
-          <label>To</label>
+          <label style={{ display: "flex" }}>To</label>
           <input
             name="to"
             onChange={handleInput}
