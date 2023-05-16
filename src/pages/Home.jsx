@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {}, [marker]);
 
   return (
-    <div style={{ backgroundColor: "488A99" }}>
+    <div style={{ backgroundColor: "" }}>
       <div
         style={{
           display: "flex",
@@ -33,7 +33,7 @@ const Home = () => {
           style={{
             paddingLeft: "15rem",
             paddingTop: "8rem",
-            backgroundColor: "#f1f1f1",
+            backgroundColor: "# 488A99",
           }}
         >
           <FilterForm
@@ -41,12 +41,18 @@ const Home = () => {
             handleInput={handleInput}
             setMarker={setMarker}
             setPlayers={setPlayers}
-            style={{ backgroundColor: "#f1f1f1" }}
+            style={{ backgroundColor: "488A99" }}
           />
         </div>
         {/* here is map componant and autcomplte componat  */}
-        <div style={{ paddingTop: "9rem" }}>
-          <div style={{ paddingTop: "1rem", paddingLeft: "7rem" }}>
+        <div style={{ paddingTop: "9rem", backgroundColor: "488A99" }}>
+          <div
+            style={{
+              paddingTop: "1rem",
+              paddingLeft: "7rem",
+              backgroundColor: "488A99",
+            }}
+          >
             <MyMapComponent inputs={inputs} marker={marker} players={players} />
           </div>
         </div>

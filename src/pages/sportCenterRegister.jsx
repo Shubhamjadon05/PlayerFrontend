@@ -6,8 +6,8 @@ import {
   FormControl,
   InputLabel,
 } from "@material-ui/core";
-
-const ClubRegistration = () => {
+import Searchbox from "./Search";
+const ClubRegistration = (setMarker, handleInput) => {
   const [clubData, setFormData] = useState({
     name: "",
     address: "",
@@ -91,7 +91,19 @@ const ClubRegistration = () => {
                 onChange={handleInputChange}
                 required
                 multiline
+                style={{
+                  paddingRight: "1rem",
+                  paddingTop: "1rem",
+                  width: "px  ",
+                }}
               />
+
+              <Searchbox
+                setMarker={setMarker}
+                handleInput={handleInput}
+                style={{ paddingRight: "7rem" }}
+              />
+
               <br />
               <TextField
                 fullWidth

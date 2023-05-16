@@ -60,10 +60,10 @@ const SportsForm = ({ setMarker, handleInput }) => {
         className="pt-5"
         style={{ backgroundColor: "#f5f5f5", border: "1px solid #000" }}
       >
-        <div className="container-fluids" style={{ height: "vh", width: "" }}>
+        <div className="container-fluids" style={{ backgroundColor: "488A99" }}>
           <div
             style={{ hight: "vh" }}
-            className="row justify-content-center align-items-center h-100"
+            className="row justify-content-center align-items-center"
           >
             <div className="col-12"></div>
             <div className="col-12 col-md-8 col-sm-8 col-lg-7 px-5 py-5"></div>
@@ -83,22 +83,11 @@ const SportsForm = ({ setMarker, handleInput }) => {
                 required
               />
               <br />
-              <div
-                style={{
-                  paddingRight: "1rem",
-                  paddingTop: "1rem",
-                  width: "100px  ",
-                }}
-              >
-                {" "}
-                Search Location
-                <Searchbox setMarker={setMarker} handleInput={handleInput} />
-              </div>
 
               <TextField
                 fullWidth
                 label="Mobile Number"
-                name="mobile"
+                name="phone"
                 value={formData.phone}
                 onChange={handleMobileChange}
                 pattern="[0-9]{10}"
@@ -142,8 +131,8 @@ const SportsForm = ({ setMarker, handleInput }) => {
               <FormControl fullWidth>
                 <InputLabel>Sports</InputLabel>
                 <Select
-                  name="sports"
-                  value={formData.sports}
+                  name="sport"
+                  value={formData.sport}
                   onChange={handleSportsChange}
                   required
                 >
