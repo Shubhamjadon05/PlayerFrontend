@@ -19,7 +19,14 @@ const MainNav = (props) => {
   const [value, setValue] = useState(props.value);
   const theme = useTheme();
   const isMatch = useMediaQuery(theme.breakpoints.down("lg"));
-  const Pages = ["Home", "Register Player", "Register Club", "Players", "Club"];
+  const Pages = [
+    "Home",
+    "Register Player",
+    "Register Club",
+    "Players",
+    "Club",
+    "MarkerTable",
+  ];
   const { logout } = useLogout();
   const navigate = useNavigate();
 
@@ -35,6 +42,8 @@ const MainNav = (props) => {
         return "/admin/players";
       case 4:
         return "/admin/sportcenters";
+      case 5:
+        return "/admin/MarkerTable";
       default:
         return "/Home";
     }

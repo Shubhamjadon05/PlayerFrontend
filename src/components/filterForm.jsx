@@ -7,7 +7,13 @@ import { useState, useEffect } from "react";
 import Searchbox from "../pages/Search";
 import { getFilteredPlayers } from "../Services/playerService";
 
-const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
+const FilterForm = ({
+  setMarker,
+  handleInput,
+  inputs,
+  setPlayers,
+  setInputs,
+}) => {
   const SPORTS = [
     { label: "Cricket", value: "option_1" },
     { label: "Football", value: "option_2" },
@@ -155,7 +161,11 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
         <div style={{ paddingRight: "1rem", paddingTop: "1rem" }}>
           {" "}
           Search Location
-          <Searchbox setMarker={setMarker} handleInput={handleInput} />
+          <Searchbox
+            setMarker={setMarker}
+            handleInput={handleInput}
+            setInputs={setInputs}
+          />
         </div>
       </div>
       <div
@@ -165,7 +175,12 @@ const FilterForm = ({ setMarker, handleInput, inputs, setPlayers }) => {
           backgroundColor: "",
         }}
       >
-        <Button variant="primary" type="submit" onClick={getFilteredPlayers}>
+        <Button
+          variant="primary"
+          type="submit"
+          onClick={getFilteredPlayers}
+          style={{ backgroundColor: "black", color: "white" }}
+        >
           {" "}
           Submit
         </Button>

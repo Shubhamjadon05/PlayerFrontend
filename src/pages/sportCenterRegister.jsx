@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Searchbox from "../pages/Search";
 import {
   TextField,
   Select,
@@ -6,21 +7,52 @@ import {
   FormControl,
   InputLabel,
 } from "@material-ui/core";
-import Searchbox from "./Search";
-const ClubRegistration = (setMarker, handleInput) => {
-  const [clubData, setFormData] = useState({
+import Autocomplete from "react-google-autocomplete";
+import { Search } from "@mui/icons-material";
+
+const ClubRegister = ({
+  setMarker,
+
+  setPlayers,
+}) => {
+  const [clubData, setclubData] = useState({
     name: "",
     address: "",
-    mobile: "",
+    phone: "",
     role: "",
-    sports: [],
+    gender: "",
+    sport: "",
     email: "",
+    lat: "",
+    lng: "",
   });
+  // const handleInput = ({ address, lat, lng }) => {
+  //   console.log("form before", formData);
+
+  //   setFormData({ ...formData, [address]: address, [lat]: lat, [lng]: lng });
+  //   console.log("form", formData);
+  //   console.log("address", address);
+  //   console.log("lat", lat);
+  //   console.log("lng", lng);
+  // };
+  const [inputs, setInputs] = useState({});
+  const handleInput = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
 
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidMobile, setIsValidMobile] = useState(true);
 
-  const handleSubmit = async (event) => {
+  useEffect(() => {
+    getClubPlayers();
+    let a;
+    let current = [];
+    current.push();
+  }, []);
+
+  const [map, setMap] = useState(null);
+
+  const getClubPlayers = async (event) => {
     event.preventDefault();
     console.log("Form submitted", clubData);
 
@@ -29,41 +61,66 @@ const ClubRegistration = (setMarker, handleInput) => {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ clubData }),
+        body: JSON.stringify({ clubData, inputs }),
       }
     );
     console.log(res);
   };
 
+  // const getregisterPlayers = async () => {
+  //   if (inputs.selectedLocation) setMarker(inputs.selectedLocation);
+  //   let bodyData = { ...inputs };
+  //   let options = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(bodyData),
+  //   };
+  //   const response = await fetch(
+  //     "http://localhost:4112/players/registerPlayer",
+  //     options
+  //   ).then((res) => res.json().then((jsonRes) => jsonRes));
+  //   console.log("RES", response);
+  //   if (response && response.registerPlayer)
+  //     setPlayers(response.registerPlayer);
+  //   else setPlayers([]);
+  // };
+
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    setFormData({ ...clubData, [name]: value });
+    setclubData({ ...clubData, [name]: value });
   };
 
   const handleSportsChange = (event) => {
-    setFormData({ ...clubData, sports: event.target.value });
+    setclubData({ ...clubData, sport: event.target.value });
+  };
+  const handlegenderChange = (event) => {
+    setclubData({ ...clubData, gender: event.target.value });
   };
 
   const handleEmailChange = (event) => {
     const value = event.target.value;
-    setFormData({ ...clubData, email: value });
+    setclubData({ ...clubData, email: value });
     setIsValidEmail(/^\S+@\S+\.\S+$/.test(value));
   };
 
-  const handleMobileChange = (event) => {
+  const handlephoneChange = (event) => {
     const value = event.target.value;
-    setFormData({ ...clubData, mobile: value });
+    setclubData({ ...clubData, phone: value });
     setIsValidMobile(/^\d{10}$/.test(value));
   };
 
   return (
     <>
-      <div style={{ backgroundColor: "#f1f1f1" }}></div>
-      <div className="pt-5" style={{ width: "vh" }}>
-        <div className="container-fluids" style={{ height: "vh", width: "" }}>
+      <div
+        className="pt-5"
+        style={{ backgroundColor: "#999999", border: "1px solid #000" }}
+      >
+        <div className="container-fluids" style={{ backgroundColor: "488A99" }}>
           <div
             style={{ hight: "vh" }}
-            className="row justify-content-center align-items-center h-100"
+            className="row justify-content-center align-items-center"
           >
             <div className="col-12"></div>
             <div className="col-12 col-md-8 col-sm-8 col-lg-7 px-5 py-5"></div>
@@ -83,34 +140,13 @@ const ClubRegistration = (setMarker, handleInput) => {
                 required
               />
               <br />
-              <TextField
-                fullWidth
-                label="Address"
-                name="address"
-                value={clubData.address}
-                onChange={handleInputChange}
-                required
-                multiline
-                style={{
-                  paddingRight: "1rem",
-                  paddingTop: "1rem",
-                  width: "px  ",
-                }}
-              />
 
-              <Searchbox
-                setMarker={setMarker}
-                handleInput={handleInput}
-                style={{ paddingRight: "7rem" }}
-              />
-
-              <br />
               <TextField
                 fullWidth
                 label="Mobile Number"
-                name="mobile"
-                value={clubData.mobile}
-                onChange={handleMobileChange}
+                name="phone"
+                value={clubData.phone}
+                onChange={handlephoneChange}
                 pattern="[0-9]{10}"
                 required
               />
@@ -135,10 +171,25 @@ const ClubRegistration = (setMarker, handleInput) => {
               </FormControl>
               <br />
               <FormControl fullWidth>
-                <InputLabel>Sports</InputLabel>
+                <InputLabel>Gender</InputLabel>
                 <Select
-                  name="sports"
-                  value={clubData.sports}
+                  name="Gender"
+                  value={clubData.gender}
+                  onChange={handleSportsChange}
+                  required
+                >
+                  <MenuItem value="male">male</MenuItem>
+                  <MenuItem value="female">female</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </Select>
+              </FormControl>
+              <br />
+              <br />
+              <FormControl fullWidth>
+                <InputLabel>Club</InputLabel>
+                <Select
+                  name="sport"
+                  value={clubData.sport}
                   onChange={handleSportsChange}
                   required
                 >
@@ -148,6 +199,7 @@ const ClubRegistration = (setMarker, handleInput) => {
                 </Select>
               </FormControl>
               <br />
+
               <TextField
                 fullWidth
                 label="Email"
@@ -162,220 +214,37 @@ const ClubRegistration = (setMarker, handleInput) => {
                 </span>
               )}
               <br />
-              <button type="submit" onClick={handleSubmit}>
+
+              <div
+                style={{
+                  display: "",
+                  width: "100%",
+                }}
+              >
+                {" "}
+                Address
+                <Searchbox
+                  style={{ width: "18rem" }}
+                  label="Addres"
+                  handleInput={handleInput}
+                  setMarker={setMarker}
+                  setInputs={setInputs}
+                />
+              </div>
+              <br />
+              <button
+                style={{ backgroundColor: "black", color: "white" }}
+                type="submit"
+                onClick={getClubPlayers}
+              >
                 Submit
               </button>
             </div>
           </div>
         </div>
       </div>
-      <div />
     </>
   );
 };
 
-export default ClubRegistration;
-
-// import Button from "react-bootstrap/Button";
-// import Form from "react-bootstrap/Form";
-// import BgSignup from "../assets/background/BgSignUp.png";
-// import { useFormik } from "formik";
-// import { Formik, Form as MyForm, Field, ErrorMessage } from "formik";
-// import * as Yup from "yup";
-// import { useSignup } from "../hooks/useSignup";
-// import React from "react";
-// import { useAuthContext } from "../hooks/useAuthContext";
-// import MainNav from "../components/mainNav";
-
-// const handleSubmit = async (event) => {
-//   event.preventDefault();
-//   console.log("Form submitted", formData);
-
-//   const res = await fetch(`http://localhost:4112/players/registerPlayer`, {
-//     method: "POST",
-//     headers: { "Content-Type": "application/json" },
-//     body: JSON.stringify({ formData }),
-//   });
-//   console.log(res);
-// };
-// const handleInputChange = (event) => {
-//   const { name, value } = event.target;
-//   setFormData({ ...formData, [name]: value });
-// };
-
-// const phoneRegExp =
-//   /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-// const backgroundImage = {
-//   background: `url(${BgSignup})`,
-//   height: "100vh",
-//   backgroundRepeat: "no-repeat",
-// };
-// const validationSchema = Yup.object().shape({
-//   name: Yup.string().required(),
-//   phone: Yup.string().matches(phoneRegExp, "Phone number is not valid"),
-//   email: Yup.string()
-//     .email("Invalid email address format")
-//     .required("Email is required"),
-//   role: Yup.string().required(),
-//   status: Yup.string().required(),
-//   password: Yup.string().required(),
-//   cpassword: Yup.string().required(),
-// });
-
-// const initialValues = {
-//   email: "",
-//   password: "",
-//   cpassword: "",
-//   name: "",
-//   mobile: "",
-//   username: "",
-//   role: "",
-//   status: "",
-// };
-
-// const SportCenter = () => {
-//   const { signup } = useSignup();
-//   const { user } = useAuthContext();
-
-//   React.useEffect(() => {
-//     console.log(user);
-//   }, []);
-
-//   const handleSubmit = async (values) => {
-//     await signup(values);
-//   };
-//   return (
-//     <>
-//       <div className="pt-5">
-//         <div className="container-fluids" style={{ height: "100vh" }}>
-//           <div
-//             style={{ hight: "300vh" }}
-//             className="row justify-content-center align-items-center h-100"
-//             // style={backgroundImage}
-//           >
-//             <div className="col-12"></div>
-//             <div className="col-12 col-md-8 col-sm-8 col-lg-7 px-5 py-5">
-//               <Formik
-//                 initialValues={initialValues}
-//                 value={formData.name}
-//                 onChange={handleInputChange}
-//               >
-//                 <MyForm className="border p-3 rounded bg-white shadow-lg">
-//                   <Form.Group className="mb-3" controlId="formBasicName">
-//                     <Form.Label style={{ display: "flex" }}>Name</Form.Label>
-//                     <Field
-//                       className="form-control"
-//                       type="text"
-//                       placeholder="Name"
-//                       id="name"
-//                       name="name"
-//                     />
-//                   </Form.Group>
-//                   <Form.Group className="mb-3" controlId="formBasicPhone">
-//                     <Form.Label style={{ display: "flex" }}>
-//                       Mobile Number
-//                     </Form.Label>
-//                     <Field
-//                       className="form-control"
-//                       name="mobile"
-//                       id="mobile"
-//                       type="text"
-//                       placeholder="Number"
-//                     />
-//                   </Form.Group>
-//                   <Form.Group className="mb-3" controlId="formBasicEmail">
-//                     <Form.Label style={{ display: "flex" }}>
-//                       Email address
-//                     </Form.Label>
-//                     <Field
-//                       className="form-control"
-//                       type="email"
-//                       id="email"
-//                       name="email"
-//                       placeholder="Enter email"
-//                     />
-//                     <Form.Text className="text-muted"></Form.Text>
-//                   </Form.Group>
-//                   <Form.Group className="mb-3" controlId="formBasicName">
-//                     <Form.Label style={{ display: "flex" }}>Address</Form.Label>
-//                     <Field
-//                       className="form-control"
-//                       type="text"
-//                       placeholder="Address "
-//                       id="Address"
-//                       name="Address"
-//                     />
-//                   </Form.Group>
-
-//                   <Form.Group className="mb-3" controlId="formBasicName">
-//                     <Form.Label style={{ display: "flex" }}>
-//                       Password
-//                     </Form.Label>
-//                     <Field
-//                       className="form-control"
-//                       type="text"
-//                       placeholder="Password"
-//                       id="password"
-//                       name="password"
-//                     />
-//                   </Form.Group>
-//                   <Form.Group className="mb-3" controlId="formBasicName">
-//                     <Form.Label style={{ display: "flex" }}>
-//                       Confirm Password
-//                     </Form.Label>
-//                     <Field
-//                       className="form-control"
-//                       type="text"
-//                       placeholder="Password"
-//                       id="cpassword"
-//                       name="cpassword"
-//                     />
-//                   </Form.Group>
-//                   <Form.Group className="mb-3" controlId="formBasicRole">
-//                     <Form.Label style={{ display: "flex" }}>Role</Form.Label>
-//                     <Field
-//                       as="select"
-//                       className="form-control"
-//                       aria-label="Default select example"
-//                       id="role"
-//                       name="role"
-//                     >
-//                       <option>Open this select menu</option>
-//                       <option value="1">One</option>
-//                       <option value="2">Two</option>
-//                       <option value="3">Three</option>
-//                     </Field>
-//                   </Form.Group>
-//                   <Form.Group className="mb-3" controlId="formBasicRole">
-//                     <Form.Label style={{ display: "flex" }}>Status</Form.Label>
-//                     <Field
-//                       as="select"
-//                       className="form-control"
-//                       aria-label="Default select example"
-//                       id="status"
-//                       name="status"
-//                     >
-//                       <option>Open this select menu</option>
-//                       <option value="1">One</option>
-//                       <option value="2">Two</option>
-//                       <option value="3">Three</option>
-//                     </Field>
-//                   </Form.Group>
-//                   <Button
-//                     variant="primary"
-//                     type="submit"
-//                     style={{ width: "500px", hight: "" }}
-//                   >
-//                     Submit
-//                   </Button>
-//                 </MyForm>
-//               </Formik>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default SportCenter;
+export default ClubRegister;

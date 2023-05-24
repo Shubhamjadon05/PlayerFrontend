@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Searchbox from "../pages/Search";
 import {
   TextField,
@@ -7,31 +7,82 @@ import {
   FormControl,
   InputLabel,
 } from "@material-ui/core";
+import Autocomplete from "react-google-autocomplete";
+import { Search } from "@mui/icons-material";
 
-const SportsForm = ({ setMarker, handleInput }) => {
+const RegisterPlayer = ({
+  setMarker,
+
+  setPlayers,
+}) => {
   const [formData, setFormData] = useState({
     name: "",
     address: "",
     phone: "",
     role: "",
-    sports: [],
+    gender: "",
+    sport: "",
     email: "",
+    lat: "",
+    lng: "",
   });
+  // const handleInput = ({ address, lat, lng }) => {
+  //   console.log("form before", formData);
+
+  //   setFormData({ ...formData, [address]: address, [lat]: lat, [lng]: lng });
+  //   console.log("form", formData);
+  //   console.log("address", address);
+  //   console.log("lat", lat);
+  //   console.log("lng", lng);
+  // };
+  const [inputs, setInputs] = useState({});
+  const handleInput = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+  };
 
   const [isValidEmail, setIsValidEmail] = useState(true);
   const [isValidMobile, setIsValidMobile] = useState(true);
 
-  const handleSubmit = async (event) => {
+  useEffect(() => {
+    getregisterPlayers();
+    let a;
+    let current = [];
+    current.push();
+  }, []);
+
+  const [map, setMap] = useState(null);
+
+  const getregisterPlayers = async (event) => {
     event.preventDefault();
     console.log("Form submitted", formData);
 
     const res = await fetch(`http://localhost:4112/players/registerPlayer`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ formData }),
+      body: JSON.stringify({ formData, inputs }),
     });
     console.log(res);
   };
+
+  // const getregisterPlayers = async () => {
+  //   if (inputs.selectedLocation) setMarker(inputs.selectedLocation);
+  //   let bodyData = { ...inputs };
+  //   let options = {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(bodyData),
+  //   };
+  //   const response = await fetch(
+  //     "http://localhost:4112/players/registerPlayer",
+  //     options
+  //   ).then((res) => res.json().then((jsonRes) => jsonRes));
+  //   console.log("RES", response);
+  //   if (response && response.registerPlayer)
+  //     setPlayers(response.registerPlayer);
+  //   else setPlayers([]);
+  // };
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -39,7 +90,10 @@ const SportsForm = ({ setMarker, handleInput }) => {
   };
 
   const handleSportsChange = (event) => {
-    setFormData({ ...formData, sports: event.target.value });
+    setFormData({ ...formData, sport: event.target.value });
+  };
+  const handlegenderChange = (event) => {
+    setFormData({ ...formData, gender: event.target.value });
   };
 
   const handleEmailChange = (event) => {
@@ -48,9 +102,9 @@ const SportsForm = ({ setMarker, handleInput }) => {
     setIsValidEmail(/^\S+@\S+\.\S+$/.test(value));
   };
 
-  const handleMobileChange = (event) => {
+  const handlephoneChange = (event) => {
     const value = event.target.value;
-    setFormData({ ...formData, mobile: value });
+    setFormData({ ...formData, phone: value });
     setIsValidMobile(/^\d{10}$/.test(value));
   };
 
@@ -58,7 +112,7 @@ const SportsForm = ({ setMarker, handleInput }) => {
     <>
       <div
         className="pt-5"
-        style={{ backgroundColor: "#f5f5f5", border: "1px solid #000" }}
+        style={{ backgroundColor: "#90debf", border: "1px solid #000" }}
       >
         <div className="container-fluids" style={{ backgroundColor: "488A99" }}>
           <div
@@ -89,7 +143,7 @@ const SportsForm = ({ setMarker, handleInput }) => {
                 label="Mobile Number"
                 name="phone"
                 value={formData.phone}
-                onChange={handleMobileChange}
+                onChange={handlephoneChange}
                 pattern="[0-9]{10}"
                 required
               />
@@ -117,7 +171,7 @@ const SportsForm = ({ setMarker, handleInput }) => {
                 <InputLabel>Gender</InputLabel>
                 <Select
                   name="Gender"
-                  value={formData.sports}
+                  value={formData.gender}
                   onChange={handleSportsChange}
                   required
                 >
@@ -157,10 +211,27 @@ const SportsForm = ({ setMarker, handleInput }) => {
                 </span>
               )}
               <br />
+
+              <div
+                style={{
+                  display: "flex",
+                }}
+              >
+                {" "}
+                Address
+                <Searchbox
+                  style={{ width: "18rem" }}
+                  label="Addres"
+                  handleInput={handleInput}
+                  setMarker={setMarker}
+                  setInputs={setInputs}
+                />
+              </div>
+              <br />
               <button
                 style={{ backgroundColor: "black", color: "white" }}
                 type="submit"
-                onClick={handleSubmit}
+                onClick={getregisterPlayers}
               >
                 Submit
               </button>
@@ -172,4 +243,4 @@ const SportsForm = ({ setMarker, handleInput }) => {
   );
 };
 
-export default SportsForm;
+export default RegisterPlayer;
